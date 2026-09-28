@@ -1,4 +1,9 @@
 
+using Microsoft.EntityFrameworkCore;
+using School.AppContext;
+using SchoolProjcet.Repo.Implement;
+using SchoolProjcet.Repo.Interface;
+
 namespace SchoolProjcet
 {
     public class Program
@@ -13,7 +18,9 @@ namespace SchoolProjcet
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+            builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddScoped<IStudentRepo,StudentRepo>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
